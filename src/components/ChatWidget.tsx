@@ -30,10 +30,10 @@ const ChatWidget = () => {
   ];
 
   return (
-    <div className="fixed bottom-6 left-6 z-50" ref={chatRef}>
+    <div className="fixed bottom-6 right-6 z-50" ref={chatRef}>
       {/* Chat Window */}
       {isOpen && (
-        <div className="absolute bottom-20 left-0 w-[340px] sm:w-[380px] animate-scale-in origin-bottom-left">
+        <div className="absolute bottom-20 right-0 w-[340px] sm:w-[380px] animate-scale-in origin-bottom-right">
           <div className="glass-card rounded-3xl overflow-hidden border border-border/50 shadow-2xl shadow-primary/20">
             {/* Header */}
             <div className="bg-gradient-to-r from-primary/20 to-accent/20 p-4 flex items-center justify-between border-b border-border/30">
