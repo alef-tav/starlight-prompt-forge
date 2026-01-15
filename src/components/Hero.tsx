@@ -61,7 +61,7 @@ const Hero = () => {
       {/* Partner logos placeholder */}
       <div className="absolute bottom-32 left-0 right-0 animate-fade-up animation-delay-400 z-10 pointer-events-none">
       <div className="flex items-center justify-center gap-8 md:gap-16 opacity-70">
-          {["n8n", "Supaupae", "CrewAi", "Lovable", "LiveKit"].map((logo, i) => (
+          {["n8n", "Supabase", "CrewAi", "Lovable", "LiveKit"].map((logo, i) => (
             <span key={i} className="text-sm md:text-base font-bold tracking-wider text-foreground">
               {logo}
             </span>
