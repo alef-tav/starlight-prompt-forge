@@ -40,7 +40,7 @@ const Hero = () => {
           automações inteligentes e assistentes de IA.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up animation-delay-300 pointer-events-auto">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up animation-delay-300 pointer-events-auto relative z-20">
           <Button variant="hero" size="xl" className="group">
             Solicite um Orçamento
             <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
@@ -49,6 +49,17 @@ const Hero = () => {
             Conheça nossos serviços
           </Button>
         </div>
+
+        {/* Partner logos - now inside the content flow */}
+        <div className="mt-12 animate-fade-up animation-delay-400 pointer-events-none">
+          <div className="flex items-center justify-center gap-8 md:gap-16 opacity-70">
+            {["n8n", "Supabase", "CrewAi", "Lovable", "LiveKit"].map((logo, i) => (
+              <span key={i} className="text-sm md:text-base font-bold tracking-wider text-foreground">
+                {logo}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
@@ -56,17 +67,6 @@ const Hero = () => {
         <a href="#services" className="glass-card w-12 h-12 rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary/50 transition-colors pointer-events-auto">
           <ChevronDown className="w-5 h-5 text-muted-foreground animate-float" />
         </a>
-      </div>
-
-      {/* Partner logos placeholder */}
-      <div className="absolute bottom-32 left-0 right-0 animate-fade-up animation-delay-400 z-10 pointer-events-none">
-      <div className="flex items-center justify-center gap-8 md:gap-16 opacity-70">
-          {["n8n", "Supabase", "CrewAi", "Lovable", "LiveKit"].map((logo, i) => (
-            <span key={i} className="text-sm md:text-base font-bold tracking-wider text-foreground">
-              {logo}
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   );
