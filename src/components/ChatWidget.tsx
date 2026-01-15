@@ -6,6 +6,11 @@ interface Message {
   content: string;
 }
 
+// Generate unique session ID
+const generateSessionId = () => {
+  return `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+};
+
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -16,6 +21,7 @@ const ChatWidget = () => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId] = useState(() => generateSessionId());
   const chatRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -59,7 +65,7 @@ const ChatWidget = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ mensagem: message }),
+          body: JSON.stringify({ mensagem: message, sessionId }),
         }
       );
 
