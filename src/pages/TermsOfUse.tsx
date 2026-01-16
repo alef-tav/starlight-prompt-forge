@@ -1,17 +1,12 @@
-import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const TermsOfUse = () => {
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <Link 
-          to="/" 
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Voltar ao início
-        </Link>
+      <Header />
+      
+      <div className="max-w-4xl mx-auto px-6 pt-28 pb-16">
 
         <h1 className="text-4xl font-bold text-foreground mb-8">Termos de Uso</h1>
         
@@ -115,6 +110,8 @@ const TermsOfUse = () => {
           </section>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
