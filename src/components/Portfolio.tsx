@@ -71,12 +71,13 @@ const Portfolio = () => {
             />
             <video
               ref={videoRef}
-              src="/videos/ai-comercial.mp4"
+              src="https://i.imgur.com/v42mNAF.mp4"
               poster="/videos/ai-comercial-thumbnail.png"
               className="absolute inset-0 w-full h-full object-cover"
               onEnded={handleVideoEnded}
               playsInline
               muted
+              crossOrigin="anonymous"
             />
             
             {/* Overlay gradient */}
