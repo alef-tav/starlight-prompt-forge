@@ -1,9 +1,7 @@
+import { useState, useRef } from "react";
+import { Play, Pause } from "lucide-react";
+
 const projects = [
-  {
-    title: "WOOPO Arquitetura",
-    category: "Automação",
-    color: "from-emerald-500/20 to-emerald-900/20",
-  },
   {
     title: "One Power",
     category: "E-commerce",
@@ -32,6 +30,24 @@ const projects = [
 ];
 
 const Portfolio = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleVideoEnded = () => {
+    setIsPlaying(false);
+  };
+
   return (
     <section id="portfolio" className="relative py-24 px-6">
       <div className="max-w-7xl mx-auto">
@@ -45,6 +61,47 @@ const Portfolio = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Video Card - Comerciais IA */}
+          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden group cursor-pointer">
+            <video
+              ref={videoRef}
+              src="/videos/ai-comercial.mp4"
+              className="absolute inset-0 w-full h-full object-cover"
+              onEnded={handleVideoEnded}
+              playsInline
+              muted
+            />
+            
+            {/* Overlay gradient */}
+            <div className={`absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`} />
+            
+            {/* Play button */}
+            <button
+              onClick={toggleVideo}
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}
+            >
+              <div className="w-16 h-16 rounded-full bg-primary/90 hover:bg-primary flex items-center justify-center transition-all hover:scale-110 shadow-lg shadow-primary/30">
+                {isPlaying ? (
+                  <Pause className="w-6 h-6 text-primary-foreground" />
+                ) : (
+                  <Play className="w-6 h-6 text-primary-foreground ml-1" />
+                )}
+              </div>
+            </button>
+
+            {/* Content overlay */}
+            <div className={`absolute inset-0 flex items-end p-6 transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`}>
+              <div>
+                <h3 className="text-lg font-semibold mb-1">Comerciais com IA</h3>
+                <p className="text-sm text-muted-foreground mb-2">Criativos de Alta Conversão</p>
+                <p className="text-xs text-muted-foreground/80 leading-relaxed max-w-xs">
+                  Criamos comerciais e criativos de alta conversão com IA. Inclusive seu próprio influencer IA para o seu negócio.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Regular project cards */}
           {projects.map((project, index) => (
             <div
               key={index}
