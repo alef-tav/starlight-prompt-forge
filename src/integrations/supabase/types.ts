@@ -41,6 +41,45 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          inicio_atendimento: string
+          nome: string | null
+          objetivo_projeto: string | null
+          resumo_da_conversa: string | null
+          servico_interesse: string | null
+          session_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          inicio_atendimento?: string
+          nome?: string | null
+          objetivo_projeto?: string | null
+          resumo_da_conversa?: string | null
+          servico_interesse?: string | null
+          session_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          inicio_atendimento?: string
+          nome?: string | null
+          objetivo_projeto?: string | null
+          resumo_da_conversa?: string | null
+          servico_interesse?: string | null
+          session_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
