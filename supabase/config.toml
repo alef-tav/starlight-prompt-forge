@@ -1,1 +1,4 @@
 project_id = "fbazcigvpcpsxluahrqw"
+
+[functions.sync-leads-external]
+verify_jwt = false
