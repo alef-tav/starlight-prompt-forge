@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Calendar, Instagram, Linkedin, MessageCircle } from "lucide-react";
+import logoAlavancaAI from "@/assets/logo-alavanca-ai.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -25,10 +26,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
-              </div>
-              <span className="text-xl font-bold text-foreground">Alavanca AI</span>
+              <img 
+                src={logoAlavancaAI} 
+                alt="Alavanca AI" 
+                className="h-12 w-auto"
+              />
             </div>
             <p className="text-muted-foreground leading-relaxed max-w-sm">
               Transformando negócios através da inteligência artificial. 
