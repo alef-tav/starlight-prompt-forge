@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, MessageSquare, User, Calendar, Search, Loader2, Shield } from "lucide-react";
+import { ArrowLeft, MessageSquare, User, Calendar, Search, Loader2, Shield, LogIn } from "lucide-react";
 
 interface ChatMessage {
   id: string;
@@ -22,13 +22,34 @@ interface ConversationGroup {
 }
 
 const Admin = () => {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signIn } = useAuth();
   const navigate = useNavigate();
   const [conversations, setConversations] = useState<ConversationGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedConversation, setSelectedConversation] = useState<ConversationGroup | null>(null);
+  
+  // Login form state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+
+  // Handle login
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    setLoginLoading(true);
+
+    const { error } = await signIn(email, password);
+    
+    if (error) {
+      setLoginError("Credenciais inválidas");
+    }
+    
+    setLoginLoading(false);
+  };
 
   // Check if user is admin
   useEffect(() => {
@@ -89,10 +110,6 @@ const Admin = () => {
         }
 
         // Get unique user IDs
-        const userIds = [...new Set(messages.map(m => m.user_id))];
-
-        // Get user emails from auth.users (via a separate query or stored in messages)
-        // For now, we'll use user_id as identifier
         const grouped: Record<string, ConversationGroup> = {};
 
         for (const msg of messages as ChatMessage[]) {
@@ -141,18 +158,77 @@ const Admin = () => {
     );
   }
 
+  // Show login form if not authenticated
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-        <Shield className="w-16 h-16 text-muted-foreground mb-4" />
-        <h1 className="text-2xl font-bold text-foreground mb-2">Acesso Restrito</h1>
-        <p className="text-muted-foreground mb-6">Você precisa estar logado para acessar esta página.</p>
-        <button
-          onClick={() => navigate("/")}
-          className="px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:opacity-90 transition-opacity"
-        >
-          Voltar ao Início
-        </button>
+        <div className="w-full max-w-md">
+          <div className="glass-card rounded-2xl border border-border/50 p-8">
+            <div className="flex flex-col items-center mb-8">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center mb-4">
+                <Shield className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold text-foreground">Painel Admin</h1>
+              <p className="text-muted-foreground text-sm mt-1">Faça login para continuar</p>
+            </div>
+
+            <form onSubmit={handleLogin} className="space-y-4">
+              {loginError && (
+                <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-xl text-destructive text-sm text-center">
+                  {loginError}
+                </div>
+              )}
+              
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-secondary/50 border border-border/50 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
+                  placeholder="admin@email.com"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">Senha</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-secondary/50 border border-border/50 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loginLoading}
+                className="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {loginLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    <LogIn className="w-5 h-5" />
+                    Entrar
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => navigate("/")}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                ← Voltar ao site
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
