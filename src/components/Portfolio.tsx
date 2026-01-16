@@ -62,10 +62,17 @@ const Portfolio = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Video Card - Comerciais IA */}
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden group cursor-pointer">
+          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden group cursor-pointer bg-gradient-to-br from-emerald-500/20 to-emerald-900/20">
+            {/* Thumbnail/Poster Image */}
+            <img
+              src="/videos/ai-comercial-thumbnail.png"
+              alt="Comerciais com IA"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`}
+            />
             <video
               ref={videoRef}
               src="/videos/ai-comercial.mp4"
+              poster="/videos/ai-comercial-thumbnail.png"
               className="absolute inset-0 w-full h-full object-cover"
               onEnded={handleVideoEnded}
               playsInline
