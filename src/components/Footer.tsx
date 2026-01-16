@@ -1,7 +1,8 @@
+import { forwardRef } from "react";
 import { Mail, Phone, MapPin, Calendar, Instagram, Linkedin, MessageCircle } from "lucide-react";
 import logoAlavancaAI from "@/assets/logo-alavanca-ai.png";
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   const currentYear = new Date().getFullYear();
 
   const solutions = [
@@ -19,7 +20,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative border-t border-border/20">
+    <footer ref={ref} className="relative border-t border-border/20">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
@@ -123,6 +124,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;
