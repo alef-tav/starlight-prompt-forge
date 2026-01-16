@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, LogOut, Loader2 } from "lucide-react";
+import { ArrowLeft, LogOut, Loader2, RefreshCw } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import logo from "@/assets/logo-alavanca-ai.png";
 
 const AdminHeader = () => {
@@ -11,6 +13,7 @@ const AdminHeader = () => {
   const { signOut } = useAuth();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,6 +26,32 @@ const AdminHeader = () => {
     setIsLoggingOut(true);
     await signOut();
     navigate("/");
+  };
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sync-leads-external", {
+        method: "POST",
+      });
+
+      if (error) {
+        console.error("Sync error:", error);
+        toast.error("Erro ao sincronizar leads");
+        return;
+      }
+
+      if (data?.success) {
+        toast.success(data.message || "Leads sincronizados com sucesso!");
+      } else {
+        toast.error(data?.error || "Erro ao sincronizar");
+      }
+    } catch (err) {
+      console.error("Sync error:", err);
+      toast.error("Erro ao conectar com o servidor");
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   return (
@@ -46,9 +75,20 @@ const AdminHeader = () => {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
+          {/* Sync Button */}
+          <button
+            onClick={handleSync}
+            disabled={isSyncing}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 transition-colors disabled:opacity-50"
+            title="Sincronizar com DB externo"
+          >
+            <RefreshCw className={`w-4 h-4 ${isSyncing ? "animate-spin" : ""}`} />
+            <span className="hidden sm:inline text-sm">Sincronizar</span>
+          </button>
+
           {/* Clock */}
-          <div className="hidden sm:block text-right">
+          <div className="hidden md:block text-right">
             <p className="text-[10px] text-muted-foreground uppercase tracking-wider">
               Horário do Sistema
             </p>
