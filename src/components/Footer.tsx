@@ -109,10 +109,10 @@ const Footer = () => {
               © {currentYear} Alavanca AI. Todos os direitos reservados.
             </p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/privacidade" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Política de Privacidade
               </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/termos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Termos de Uso
               </a>
             </div>
