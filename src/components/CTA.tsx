@@ -1,9 +1,10 @@
+import { forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail } from "lucide-react";
 
-const CTA = () => {
+const CTA = forwardRef<HTMLElement>((_, ref) => {
   return (
-    <section className="relative py-32 px-6 overflow-hidden">
+    <section ref={ref} className="relative py-32 px-6 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-primary/10 to-transparent" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/30 blur-[120px] rounded-full" />
@@ -37,6 +38,8 @@ const CTA = () => {
       </div>
     </section>
   );
-};
+});
+
+CTA.displayName = "CTA";
 
 export default CTA;
